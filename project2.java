@@ -20,8 +20,8 @@ public class project2{
 			System.out.println(array[i].card());
 		}
 	}
-	
-	//Deal cards to opponent and player
+		
+	//Deal cards to opponent and player.
 	public static void deal(Deck[] array){
 		for(int i = 0;i<1;i++){
 			if(i%2 == 0){

@@ -1,8 +1,22 @@
-
+import java.util.Scanner;
+import java.util.Random;
 
 public class project2{
-	
-	
+	static Hand player;
+	static Hand opponent;
+	static int pistiCounter = 4;
+	static int counter = 4;
+	static Deck[] board = new Deck[52];
+	static int cardtoplay;
+	static int playerpoint;
+	static int opponentpoint;
+
+	public static void startboard(Deck[] array){
+		board[0] = array[0];
+		board[1] = array[1];
+		board[2] = array[2];
+		board[3] = array[3];
+	}
 	//Shuffle deck 
 	public static Deck[] shuffle(Deck[] array){
 		for (int i = 0; i < array.length; i++) {
@@ -20,23 +34,81 @@ public class project2{
 			System.out.println(array[i].card());
 		}
 	}
-		
+	
 	//Deal cards to opponent and player.
 	public static void deal(Deck[] array){
-		for(int i = 0;i<1;i++){
-			if(i%2 == 0){
-				player= new Hand(array[0].card(), array[1].card(), array[2].card(), array[3].card());
+		
+
+		player= new Hand(array[counter], array[counter+2], array[counter+4], array[counter+6]);
+			
+		opponent= new Hand(array[counter+1], array[counter+3], array[counter+5], array[counter+7]);
+			
+		counter += 8;
+	}
+
+	public static Deck pickcard(Hand hand,int cardtoplay){
+		
+			switch (cardtoplay) {
+ 				case 1:
+    				return hand.getCARD1();
+    			break;
+  				case 2:
+    				return hand.getCARD2();
+   				break;
+  				case 3:
+    				return hand.getCARD3();
+    			break;
+  				case 4:
+    				return hand.getCARD4();
+    			break;
+  				
+			}
+			return null;
+	}
+
+	public static void compare(Deck card){
+		board[pistiCounter] = card;
+		
+		if(pistiCounter == 0){
+			pistiCounter ++;
+			continue;
+		}
+
+		if(card.getRANK().equals(board[pistiCounter-1].getRANK())){
+			if(isempty(board[])){
+				//pisti
+				pistiCounter = 0;
 			}else{
-				opponent= new Hand(array[4].card(), array[5].card(), array[6].card(), array[7].card());
+				emptyarray(board[]);
+				pistiCounter = 0;
 			}
 		}
+			pistiCounter ++;
 	}
-		
+
+	public static boolean isempty(Deck[] array){
+		for(int i = 0; i< array.length;i++){
+			if(array[i] != null){
+				return false;
+			}
+		}
+		return true;
+	}
+	//clears out an array
+	public static void emptyarray(Deck[] array){
+		for(int i = 0; i < array.length; i++){
+			array[i] = null;
+		}
+	}
+
+
+
 	public static void main(String[] args){
 		//Initialize deck you can call the deck[x].card function later
-		Hand player = player;
-		Hand opponent = opponent;
-		int a = a;
+		Scanner sc = new Scanner(System.in);
+		Random r = new Random(System.currentTimeMillis());
+
+
 		Deck[] deck = new Deck[52];
 		String[] suits = {"Spades ♠", "Hearts ♥", "Diamonds ♦", "Clubs ♣"};
 		String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
@@ -45,14 +117,33 @@ public class project2{
 			String ranktemporary =	ranks[i%13];
 			deck[i]= new Deck(suittemporary,ranktemporary);
 		}
-		shuffle(deck);
-		display(deck); 
-		deal(deck);
-		System.out.println(player.reveal());
-		System.out.println("\n"+"\n");
 
+
+		shuffle(deck);
+		display(deck);
+		startboard(deck);
+		
 
 		
-	}
+			Deck opponentcard;
+			Deck playercard;
+			deal(deck);
+			System.out.println("\n"+"\n"+"players deck:");
+			player.display();
+			System.out.println("\n"+"\n"+"opponents deck:");
+			opponent.display();
+			System.out.println("Pick a card to play.");
+			
+			cardtoplay = sc.nextInt();
+			playercard = pickcard(player, cardtoplay);
+			compare(playercard);
+			cardtoplay = r.nextInt(4);
+			opponentcard = pickcard(opponent, cardtoplay);
+			compare(opponentcard);
 
+
+
+
+
+	}
 }

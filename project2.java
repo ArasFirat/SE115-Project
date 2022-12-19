@@ -11,13 +11,15 @@ public class project2{
 	static int playerpoint;
 	static int opponentpoint;
 
+
+	//puts the first four cards on the deck on the board
 	public static void startboard(Deck[] array){
 		board[0] = array[0];
 		board[1] = array[1];
 		board[2] = array[2];
 		board[3] = array[3];
 	}
-	//Shuffle deck 
+	//Shuffles deck 
 	public static Deck[] shuffle(Deck[] array){
 		for (int i = 0; i < array.length; i++) {
     		int index = (int)(Math.random() * array.length);
@@ -28,7 +30,7 @@ public class project2{
     return array;
 
 	}
-	//Display deck
+	//Displays deck
 	public static void display(Deck[] array){
 		for(int i=0;i<array.length;i++){
 			System.out.println(array[i].card());
@@ -45,47 +47,44 @@ public class project2{
 			
 		counter += 8;
 	}
-
+	//player picks a card to play that round
 	public static Deck pickcard(Hand hand,int cardtoplay){
 		
 			switch (cardtoplay) {
  				case 1:
     				return hand.getCARD1();
-    			break;
   				case 2:
     				return hand.getCARD2();
-   				break;
   				case 3:
     				return hand.getCARD3();
-    			break;
   				case 4:
     				return hand.getCARD4();
-    			break;
   				
 			}
 			return null;
 	}
-
+	//compares the last card on the pile to the newly thrown one.
 	public static void compare(Deck card){
 		board[pistiCounter] = card;
 		
 		if(pistiCounter == 0){
 			pistiCounter ++;
-			continue;
-		}
+			return;
+			}
 
 		if(card.getRANK().equals(board[pistiCounter-1].getRANK())){
-			if(isempty(board[])){
+			if(isempty(board)){
 				//pisti
 				pistiCounter = 0;
 			}else{
-				emptyarray(board[]);
+				emptyarray(board);
 				pistiCounter = 0;
 			}
 		}
 			pistiCounter ++;
 	}
 
+	//checks if an array is empty or not
 	public static boolean isempty(Deck[] array){
 		for(int i = 0; i< array.length;i++){
 			if(array[i] != null){
@@ -94,6 +93,7 @@ public class project2{
 		}
 		return true;
 	}
+
 	//clears out an array
 	public static void emptyarray(Deck[] array){
 		for(int i = 0; i < array.length; i++){
@@ -122,11 +122,12 @@ public class project2{
 		shuffle(deck);
 		display(deck);
 		startboard(deck);
+		Deck opponentcard;
+		Deck playercard;
 		
-
+		while(counter<52){
 		
-			Deck opponentcard;
-			Deck playercard;
+			
 			deal(deck);
 			System.out.println("\n"+"\n"+"players deck:");
 			player.display();
@@ -140,6 +141,7 @@ public class project2{
 			cardtoplay = r.nextInt(4);
 			opponentcard = pickcard(opponent, cardtoplay);
 			compare(opponentcard);
+		}
 
 
 

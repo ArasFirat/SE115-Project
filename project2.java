@@ -2,14 +2,20 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class project2{
-	static Hand player;
-	static Hand opponent;
+	static Hand player; 	 //the four cards on the players hand
+	static Hand opponent;	 //the four cards on the opponents hand
 	static int pistiCounter = 4;
-	static int counter = 4;
-	static Deck[] board = new Deck[52];
-	static int cardtoplay;
-	static int playerpoint;
-	static int opponentpoint;
+	static int counter = 4;/*counts the number of cards that have been played from the deck. 
+						   so we know when the deck is out of cards.*/
+	static Deck[] board = new Deck[52]; /* the cards that are on the board 
+										   the length may need to change 
+										   depending on the situation 
+										   the length is 52 so it will always be enough 
+										   wouldn't matter if it was more*/
+	
+	static int cardtoplay;	 // is the card that will be played that round varies from 1 to 4
+	static int playerpoint;  // total points of a player.
+	static int opponentpoint;// total points of the opponent.
 
 
 	//puts the first four cards on the deck on the board
@@ -125,26 +131,30 @@ public class project2{
 		Deck opponentcard;
 		Deck playercard;
 		
+		//every turn of the loop represents a round of the game.
 		while(counter<52){
 		
 			
 			deal(deck);
-			System.out.println("\n"+"\n"+"players deck:");
-			player.display();
-			System.out.println("\n"+"\n"+"opponents deck:");
-			opponent.display();
-			System.out.println("Pick a card to play.");
 			
+			System.out.println("\n"+"\n"+"players deck:");
+			
+			player.display();
+			
+			System.out.println("\n"+"\n"+"opponents deck:");
+			
+			opponent.display();
+			
+			System.out.println("Pick a card to play.");
 			cardtoplay = sc.nextInt();
 			playercard = pickcard(player, cardtoplay);
+			
 			compare(playercard);
 			cardtoplay = r.nextInt(4);
 			opponentcard = pickcard(opponent, cardtoplay);
 			compare(opponentcard);
 		}
-
-
-
+		System.out.println("Game Over!");
 
 
 	}

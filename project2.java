@@ -7,6 +7,7 @@ public class project2{
 	static int pistiCounter = 4;
 	static int counter = 4;/*counts the number of cards that have been played from the deck. 
 						   so we know when the deck is out of cards.*/
+	
 	static Deck[] board = new Deck[52]; /* the cards that are on the board 
 										   the length may need to change 
 										   depending on the situation 
@@ -16,6 +17,7 @@ public class project2{
 	static int cardtoplay;	 // is the card that will be played that round varies from 1 to 4
 	static int playerpoint;  // total points of a player.
 	static int opponentpoint;// total points of the opponent.
+	static int roundcounter = 0; //
 
 
 	//puts the first four cards on the deck on the board
@@ -77,7 +79,11 @@ public class project2{
 			pistiCounter ++;
 			return;
 			}
-
+			
+			System.out.println();
+			System.out.println("played card = " + card.card());
+			System.out.println("board card = " + board[pistiCounter-1].card());
+			System.out.println();
 		if(card.getRANK().equals(board[pistiCounter-1].getRANK())){
 			if(isempty(board)){
 				//pisti
@@ -107,12 +113,28 @@ public class project2{
 		}
 	}
 
+// secilen karti elden silme amacli
+	public static void delete(Hand chosen,int i){
+		switch (i) {
+ 				case 1:
+    				chosen.deletefirst();
+  				case 2:
+    				chosen.deletesecond();
+  				case 3:
+    				chosen.deletethird();
+  				case 4:
+    				chosen.deletefourth();
+  				
+			}
+	}
+	
+
 
 
 	public static void main(String[] args){
 		//Initialize deck you can call the deck[x].card function later
 		Scanner sc = new Scanner(System.in);
-		Random r = new Random(System.currentTimeMillis());
+		
 
 
 		Deck[] deck = new Deck[52];
@@ -131,28 +153,54 @@ public class project2{
 		Deck opponentcard;
 		Deck playercard;
 		
+		System.out.println("\n"+"\n"+"boards first:");
+
+		System.out.println(board[1].card());
+	
 		//every turn of the loop represents a round of the game.
 		while(counter<52){
-		
+		Random r = new Random(System.currentTimeMillis());
+
+		/*	System.out.println("\n"+"\n"+"the board:");
+
+			display (board);*/
 			
-			deal(deck);
+			if(roundcounter%4 == 0){
+				deal(deck);
+			}
+			System.out.println("\n"+"\n"+"opponents deck:");
 			
+			opponent.display();
+
 			System.out.println("\n"+"\n"+"players deck:");
 			
 			player.display();
 			
-			System.out.println("\n"+"\n"+"opponents deck:");
-			
-			opponent.display();
-			
 			System.out.println("Pick a card to play.");
 			cardtoplay = sc.nextInt();
+
 			playercard = pickcard(player, cardtoplay);
 			
+
+			System.out.println();
+			System.out.println("player selected "+ playercard.card());
+			System.out.println();
+
 			compare(playercard);
-			cardtoplay = r.nextInt(4);
+			
+			cardtoplay = r.nextInt(4)+1;
+
 			opponentcard = pickcard(opponent, cardtoplay);
+					
+			System.out.println();
+			System.out.println("opponent selected "+ opponentcard.card());
+			System.out.println();
+
 			compare(opponentcard);
+			
+			roundcounter ++;
+			delete(player, cardtoplay);
+			delete(opponent, cardtoplay);
 		}
 		System.out.println("Game Over!");
 
